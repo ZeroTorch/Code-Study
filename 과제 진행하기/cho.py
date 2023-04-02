@@ -22,6 +22,7 @@ def solution(plans):
     answer = []
     
     for plan in plans:
+        # 새로 들어오는 일과 진행하던 task 사이 처리
         while(task):
             cur_task = task.pop(-1)
             name, start, playtime = cur_task
@@ -33,16 +34,18 @@ def solution(plans):
                 task.append([name, new_schedule, remain])
                 
                 # 스케쥴링 다시 해줌
-                if len(task) >=2:
-                    for i in range(len(task)-2, -1, -1):
-                        task[i][1] = task[i+1][1] + task[i+1][2]
-                
+                for i in range(len(task)-2, -1, -1):
+                    new_schedule = task[i+1][1] + task[i+1][2]
+                    task[i][1] = new_schedule
                 break
+            # 일이 끝났으면 answer에 넣어줌
             else :
-                print(cur_task)
                 answer.append(name)
-            print(task)
+        
+        # 새로운 일 task에 넣기
         task.append(plan)
+    
+    # 남은 일 순서대로 처리
     while(task):
         answer.append(task.pop()[0])
 
